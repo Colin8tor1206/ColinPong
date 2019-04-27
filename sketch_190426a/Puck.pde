@@ -4,6 +4,8 @@ public class Puck{
   float xvel = -5;
   float yvel = 5;
   float r = 12;
+  float dir;
+  float speed = 5;
 
   public void show(){
    fill(255);
@@ -22,7 +24,9 @@ public class Puck{
   
   public void isOnEdge(){
     if (y < 0 + 12 || y > height - 12){
-     yvel *= -1; 
+      System.out.println("pre" + dir);
+      direction();
+      System.out.println("post" + dir);
     }
     
     if (x < 0){
@@ -30,9 +34,17 @@ public class Puck{
     }
   }
   
+  public void direction(){
+    speed++;
+    dir = (float) Math.tan(-yvel/xvel);
+    dir = 180 - dir;
+    xvel = cos(dir) * speed;
+    yvel = sin(dir) * speed;
+  }
+  
   public void isTouching(Paddle p){
-    if (x - r < p.x + p.w && y + r < p.y + p.h/2 && y - r > p.y - p.h/2){
-      xvel *= -1;
+    if (x - r < p.x + p.w/2 && y + r < p.y + p.h/2 && y - r > p.y - p.h/2){
+      direction();
     }
   }
 
